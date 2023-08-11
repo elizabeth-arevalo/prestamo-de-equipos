@@ -6,6 +6,14 @@ En este repositorio, se desarrolla el proyecto de préstamo de equipos orientado
 En este proyecto, buscamos automatizar el proceso de prestámo de equipos en las instituciones, todo esto haciendo uso del conocimiento impartido, se te enseñará paso a paso el desarrollo del proyecto para que lo puedas implementar en tu institución o empresa. 
 
 ## Requisitos
+
+### Requisitos previos. 
+
+Para consultar el montaje del contenedor en Docker que se utilizará para el desarrollo del proyecto, comparto el siguiente repositorio: 
+
+- [Servidor IoT básico con docker compose](https://github.com/codigo-iot/servidor-IoT-basico-docker-compose/tree/main)
+
+
 ### Lista de materiales necesarios.
 
 A continuación, está una lista de los dispositivos necesarios para el desarrollo del proyecto.
