@@ -63,3 +63,7 @@ El siguiente circuito te puede mostrar las conexiones necesarias para comunicar 
 El siguiente Flow fue utilizado en el desarrollo del proyecto, mismo que puedes encontrar en l carpeta NodeRed de este repositorio.
 
 ![](https://github.com/elizabeth-arevalo/prestamo-de-equipos-con-RFID/blob/main/img/flow.png)
+
+## Dashboard
+
+![](https://github.com/elizabeth-arevalo/prestamo-de-equipos-con-RFID/blob/main/img/dashboard.png)
