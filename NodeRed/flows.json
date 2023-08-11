@@ -26,7 +26,9 @@
             [
                 "06d98f8448c4896a",
                 "d1fb20bbfa841f69",
-                "e7b78a1ca6fbcaae"
+                "e7b78a1ca6fbcaae",
+                "614791babc7f794b",
+                "8238b664828e8b62"
             ]
         ]
     },
@@ -71,7 +73,7 @@
         "type": "function",
         "z": "36ce6062cf5d6151",
         "name": "function 1",
-        "func": "msg.topic=\"INSERT INTO accesos(lector, tarjeta) VALUES (\"+\"\\\"\"+msg.payload.lector+\"\\\",\"+msg.payload.tarjeta+\");\"\nreturn msg;",
+        "func": "msg.topic = \"INSERT INTO prestamos(ID_Estudiante, ID_Equipo, Hora_Prestamo, Hora_Devolucion, Comentarios) VALUES (\" + \"\\\"\" + msg.payload.lector + \"\\\",\" + msg.payload.tarjeta + \",\" + msg.payload.hora + \",\" + msg.payload.hora + \",\" + msg.payload.comentarios +\");\"\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -105,7 +107,7 @@
         "type": "ui_text",
         "z": "36ce6062cf5d6151",
         "group": "b6d227e923e07525",
-        "order": 0,
+        "order": 1,
         "width": 0,
         "height": 0,
         "name": "",
@@ -117,8 +119,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 410,
-        "y": 100,
+        "x": 470,
+        "y": 60,
         "wires": []
     },
     {
@@ -126,7 +128,7 @@
         "type": "ui_text",
         "z": "36ce6062cf5d6151",
         "group": "b6d227e923e07525",
-        "order": 0,
+        "order": 2,
         "width": 0,
         "height": 0,
         "name": "",
@@ -138,8 +140,8 @@
         "font": "",
         "fontSize": 16,
         "color": "#000000",
-        "x": 410,
-        "y": 160,
+        "x": 450,
+        "y": 120,
         "wires": []
     },
     {
@@ -147,7 +149,7 @@
         "type": "ui_text",
         "z": "36ce6062cf5d6151",
         "group": "fd47b6b8f1f00295",
-        "order": 0,
+        "order": 1,
         "width": 0,
         "height": 0,
         "name": "",
@@ -215,8 +217,8 @@
         "name": "",
         "group": "4f6156ab10a6d940",
         "order": 1,
-        "width": 0,
-        "height": 0,
+        "width": "14",
+        "height": "1",
         "passthru": false,
         "label": "Consultar Equipos",
         "tooltip": "",
@@ -270,31 +272,10 @@
         "y": 520,
         "wires": [
             [
-                "6f26d239c3c4b87c",
-                "cc08fa38e4f02eb0"
+                "cc08fa38e4f02eb0",
+                "c2ddf527f220219a"
             ]
         ]
-    },
-    {
-        "id": "6f26d239c3c4b87c",
-        "type": "ui_text",
-        "z": "36ce6062cf5d6151",
-        "group": "4f6156ab10a6d940",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "name": "",
-        "label": "{{msg.payload[msg.payload.length-1].fecha}}",
-        "format": "{{msg.payload[msg.payload.length-1].lector}} : {{msg.payload[msg.payload.length-1].tarjeta}}",
-        "layout": "col-center",
-        "className": "",
-        "style": false,
-        "font": "",
-        "fontSize": 16,
-        "color": "#000000",
-        "x": 730,
-        "y": 580,
-        "wires": []
     },
     {
         "id": "cc08fa38e4f02eb0",
@@ -311,6 +292,69 @@
         "statusType": "auto",
         "x": 740,
         "y": 480,
+        "wires": []
+    },
+    {
+        "id": "614791babc7f794b",
+        "type": "ui_text",
+        "z": "36ce6062cf5d6151",
+        "group": "b6d227e923e07525",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "hora",
+        "format": "{{msg.payload.hora}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 570,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "8238b664828e8b62",
+        "type": "ui_text",
+        "z": "36ce6062cf5d6151",
+        "group": "b6d227e923e07525",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "comentarios",
+        "format": "{{msg.payload.comentarios}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 470,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "c2ddf527f220219a",
+        "type": "ui_text",
+        "z": "36ce6062cf5d6151",
+        "group": "4f6156ab10a6d940",
+        "order": 2,
+        "width": "14",
+        "height": "8",
+        "name": "",
+        "label": "Equipos",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "style": true,
+        "font": "Lucida Sans Typewriter,Lucida Console,Monaco,monospace",
+        "fontSize": "15",
+        "color": "#ffffff",
+        "x": 740,
+        "y": 560,
         "wires": []
     },
     {
@@ -338,7 +382,8 @@
         "willPayload": "",
         "willMsg": {},
         "userProps": "",
-        "sessionExpiry": ""
+        "sessionExpiry": "",
+        "credentials": {}
     },
     {
         "id": "30c15c85f5d3822c",
@@ -357,7 +402,7 @@
         "tab": "0b3cf1e319cfe9af",
         "order": 2,
         "disp": true,
-        "width": "6",
+        "width": 12,
         "collapse": false,
         "className": ""
     },
@@ -368,7 +413,7 @@
         "tab": "0b3cf1e319cfe9af",
         "order": 1,
         "disp": true,
-        "width": "6",
+        "width": 14,
         "collapse": false,
         "className": ""
     },
@@ -379,7 +424,7 @@
         "tab": "0b3cf1e319cfe9af",
         "order": 3,
         "disp": true,
-        "width": "6",
+        "width": 14,
         "collapse": false,
         "className": ""
     },
