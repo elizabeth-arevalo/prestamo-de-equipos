@@ -51,10 +51,15 @@ En los siguientes enlaces puedes encontrar cursos en la plataforma de edu.codigo
 - [Introducción a Docker]()
 - [Instalación de Docker]()
 - [Docker Compose]()
-- [Servidor IoT con Docker](https://github.com/elizabeth-arevalo/serv-IoT-con-Docker)
 
 ## Circuito sugerido
 
 El siguiente circuito te puede mostrar las conexiones necesarias para comunicar el sensor RFID MFRC522 RF IC con la Raspberry Pi.
 
 ![](https://github.com/elizabeth-arevalo/prestamo-de-equipos-con-RFID/blob/main/img/circuito.png)
+
+## Flow sugerido
+
+El siguiente Flow fue utilizado en el desarrollo del proyecto, mismo que puedes encontrar en l carpeta NodeRed de este repositorio.
+
+![](https://github.com/elizabeth-arevalo/prestamo-de-equipos-con-RFID/blob/main/img/flow.png)

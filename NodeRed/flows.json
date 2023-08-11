@@ -1,0 +1,394 @@
+[
+    {
+        "id": "36ce6062cf5d6151",
+        "type": "tab",
+        "label": "Flow RFID",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "193050b2338b69b1",
+        "type": "mqtt in",
+        "z": "36ce6062cf5d6151",
+        "name": "",
+        "topic": "codigoIoT/rpi/rfid",
+        "qos": "2",
+        "datatype": "json",
+        "broker": "d7f662603b61395d",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 200,
+        "y": 160,
+        "wires": [
+            [
+                "06d98f8448c4896a",
+                "d1fb20bbfa841f69",
+                "e7b78a1ca6fbcaae"
+            ]
+        ]
+    },
+    {
+        "id": "47d147427dc5c2c2",
+        "type": "mysql",
+        "z": "36ce6062cf5d6151",
+        "mydb": "30c15c85f5d3822c",
+        "name": "",
+        "x": 660,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "71bde34ef7c33cf2",
+        "type": "inject",
+        "z": "36ce6062cf5d6151",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT * FROM Prestamos;",
+        "x": 260,
+        "y": 400,
+        "wires": [
+            [
+                "ea2beebd114357b9"
+            ]
+        ]
+    },
+    {
+        "id": "06d98f8448c4896a",
+        "type": "function",
+        "z": "36ce6062cf5d6151",
+        "name": "function 1",
+        "func": "msg.topic=\"INSERT INTO accesos(lector, tarjeta) VALUES (\"+\"\\\"\"+msg.payload.lector+\"\\\",\"+msg.payload.tarjeta+\");\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 260,
+        "wires": [
+            [
+                "47d147427dc5c2c2"
+            ]
+        ]
+    },
+    {
+        "id": "ea2beebd114357b9",
+        "type": "mysql",
+        "z": "36ce6062cf5d6151",
+        "mydb": "30c15c85f5d3822c",
+        "name": "",
+        "x": 580,
+        "y": 400,
+        "wires": [
+            [
+                "cd5d26b7874f9b3e",
+                "86d53047f186f687"
+            ]
+        ]
+    },
+    {
+        "id": "d1fb20bbfa841f69",
+        "type": "ui_text",
+        "z": "36ce6062cf5d6151",
+        "group": "b6d227e923e07525",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Lector",
+        "format": "{{msg.payload.lector}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 410,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "e7b78a1ca6fbcaae",
+        "type": "ui_text",
+        "z": "36ce6062cf5d6151",
+        "group": "b6d227e923e07525",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Tarjeta",
+        "format": "{{msg.payload.tarjeta}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 410,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "cd5d26b7874f9b3e",
+        "type": "ui_text",
+        "z": "36ce6062cf5d6151",
+        "group": "fd47b6b8f1f00295",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "{{msg.payload[msg.payload.length-1].fecha}}",
+        "format": "{{msg.payload[msg.payload.length-1].lector}} : {{msg.payload[msg.payload.length-1].tarjeta}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 830,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "2004846e47fbb530",
+        "type": "ui_button",
+        "z": "36ce6062cf5d6151",
+        "name": "",
+        "group": "fd47b6b8f1f00295",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Consultar Préstamos",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "SELECT * FROM accesos;",
+        "topicType": "str",
+        "x": 220,
+        "y": 320,
+        "wires": [
+            [
+                "ea2beebd114357b9"
+            ]
+        ]
+    },
+    {
+        "id": "86d53047f186f687",
+        "type": "debug",
+        "z": "36ce6062cf5d6151",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.length",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 780,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "83fbe4d17fdd80ab",
+        "type": "ui_button",
+        "z": "36ce6062cf5d6151",
+        "name": "",
+        "group": "4f6156ab10a6d940",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Consultar Equipos",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "SELECT * FROM Equipos;",
+        "topicType": "str",
+        "x": 250,
+        "y": 500,
+        "wires": [
+            [
+                "c16e14c265dbfdd1"
+            ]
+        ]
+    },
+    {
+        "id": "bed8bc327b22daa0",
+        "type": "inject",
+        "z": "36ce6062cf5d6151",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT * FROM Equipos;",
+        "x": 240,
+        "y": 580,
+        "wires": [
+            [
+                "c16e14c265dbfdd1"
+            ]
+        ]
+    },
+    {
+        "id": "c16e14c265dbfdd1",
+        "type": "mysql",
+        "z": "36ce6062cf5d6151",
+        "mydb": "30c15c85f5d3822c",
+        "name": "",
+        "x": 520,
+        "y": 520,
+        "wires": [
+            [
+                "6f26d239c3c4b87c",
+                "cc08fa38e4f02eb0"
+            ]
+        ]
+    },
+    {
+        "id": "6f26d239c3c4b87c",
+        "type": "ui_text",
+        "z": "36ce6062cf5d6151",
+        "group": "4f6156ab10a6d940",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "{{msg.payload[msg.payload.length-1].fecha}}",
+        "format": "{{msg.payload[msg.payload.length-1].lector}} : {{msg.payload[msg.payload.length-1].tarjeta}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 730,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "cc08fa38e4f02eb0",
+        "type": "debug",
+        "z": "36ce6062cf5d6151",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.length",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "d7f662603b61395d",
+        "type": "mqtt-broker",
+        "name": "Docker",
+        "broker": "mosquitto",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "30c15c85f5d3822c",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "mysql",
+        "port": "3306",
+        "db": "prestamo_de_equipos",
+        "tz": "-06:00",
+        "charset": "UTF8"
+    },
+    {
+        "id": "b6d227e923e07525",
+        "type": "ui_group",
+        "name": "Lectura",
+        "tab": "0b3cf1e319cfe9af",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "fd47b6b8f1f00295",
+        "type": "ui_group",
+        "name": "Historico",
+        "tab": "0b3cf1e319cfe9af",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4f6156ab10a6d940",
+        "type": "ui_group",
+        "name": "Equipos",
+        "tab": "0b3cf1e319cfe9af",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0b3cf1e319cfe9af",
+        "type": "ui_tab",
+        "name": "Control RFID",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
