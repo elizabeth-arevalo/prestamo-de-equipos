@@ -67,3 +67,10 @@ El siguiente Flow fue utilizado en el desarrollo del proyecto, mismo que puedes 
 ## Dashboard
 
 ![](https://github.com/elizabeth-arevalo/prestamo-de-equipos-con-RFID/blob/main/img/dashboard.png)
+
+# Créditos.
+ Este proyecto fue desarrollado por:
+
+- [Elizabeth Paulina Arévalo Sandoval.](https://github.com/elizabeth-arevalo)
+- [Marco Antonio Hernández Magni.](https://github.com/Magni007)
+- [Jesús Javier Flores Pérez.](https://github.com/jjavierohara)
