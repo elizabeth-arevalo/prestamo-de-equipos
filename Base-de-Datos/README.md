@@ -5,7 +5,23 @@ A continuación, te mostraremos la creación de la base de datos para el proyect
 Se incluirán tres tablas principales: 
 - Estudiantes, Equipos y Préstamos. 
 
-Vamos a definir las tablas y sus campos con los siguientes query.
+1. Entrar a MySQL desde terminal.
+
+~~~
+docker compose up -d
+docker exec -it [id-o-nombre_contenedor_mysql] mysql -u [usuario] -p 
+[contraseña] 
+~~~
+
+2. Crear la base de datos.
+
+~~~
+CREATE DATABASE prestamo_de_equipos;
+~~~
+
+3. Usar la base de datos.
+
+    - Vamos a definir las tablas y sus campos con los siguientes query.
 
 - **Tabla estudiantes:**
 ~~~
