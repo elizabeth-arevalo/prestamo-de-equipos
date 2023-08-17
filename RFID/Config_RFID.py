@@ -1,100 +1,33 @@
-import RPi.GPIO as GPIO
-import MFRC522
+import RPi.GPIO as GPIO  # Importamos la librería RPi.GPIO para controlar los pines GPIO de la Raspberry Pi
+from time import sleep  # Importamos la función sleep desde el módulo time para pausas en el programa
+from mfrc522 import SimpleMFRC522  # Importamos la clase SimpleMFRC522 del módulo mfrc522 para el manejo del lector RFID
+from paho.mqtt import client as mqtt  # Importamos el módulo cliente del paquete paho.mqtt para la comunicación MQTT
+from datetime import datetime  # Importamos la clase datetime del módulo datetime para trabajar con fechas y horas
 
-RST_PIN = 22   # Configurable, RST Pin
-SS_PIN = 24    # Configurable, SDA Pin
+# MQTT
+cliente = mqtt.Client()  # Creamos una instancia del cliente MQTT
+cliente.connect("52.28.227.73", 1883, 60)  # Establecemos la conexión con el servidor MQTT en la dirección IP y puerto especificados
+cliente.loop_start()  # Iniciamos un hilo de fondo para el manejo de comunicación MQTT
 
-# Create MFRC522 instance
-mfrc522 = MFRC522.MFRC522(SS_PIN, RST_PIN)
+# RFID
+reader = SimpleMFRC522()  # Creamos una instancia del lector RFID SimpleMFRC522
+print("Coloca una tarjeta sobre el lector")  # Imprimimos un mensaje para indicar al usuario que coloque una tarjeta en el lector
+while True:  # Iniciamos un bucle infinito
+    try:  # Manejamos cualquier excepción que ocurra en este bloque
+        id, text = reader.read()  # Leemos el ID y el texto de la tarjeta colocada en el lector
+        print("El ID de la tarjeta es:\n")
+        print(id)  # Imprimimos el ID de la tarjeta leída
+        text = input('Estatus (Prestamo o Devolucion):')  # Solicitamos al usuario ingresar el estado de la tarjeta
 
-def Escribir():
-    key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]  # Prepare key
+        timestamp = datetime.now()  # Obtenemos la fecha y hora actual
+        print("Timestamp: {}".format(timestamp))  # Imprimimos la marca de tiempo
+        print("Now place your tag to write")  # Indicamos al usuario que coloque la tarjeta para escribir
+        reader.write(text)  # Escribimos el estado de la tarjeta en la misma
 
-    while not mfrc522.MFRC522_Request(mfrc522.PICC_REQIDL):  # Look for new cards
-        pass
+        mensaje = "{{\"lector\": {}, \"tarjeta\": {}, \"hora\": \"{}\"}}".format(id, text, timestamp)  # Formateamos un mensaje JSON con el ID, el estado de la tarjeta y la marca de tiempo
+        cliente.publish("prestamoEquipos/rpi/rfid", mensaje)  # Publicamos el mensaje en el tema "prestamoEquipos/rpi/rfid" en el servidor MQTT
 
-    status, uid = mfrc522.MFRC522_Anticoll()  # Select one of the cards
-
-    if status == mfrc522.MI_OK:
-        print("Card UID:", uid)  # Dump UID
-        piccType = mfrc522.PICC_GetType(uid[0])  # Dump PICC type
-        print("PICC type:", mfrc522.PICC_GetTypeName(piccType))
-
-        block = 1
-        buffer = [0] * 18
-        for i in range(18):
-            buffer[i] = ord(' ')
-
-        print("Enter code ending with #")
-        input_data = input()
-        len_data = min(len(input_data), 30)
-        for i in range(len_data):
-            buffer[i] = ord(input_data[i])
-
-        status = mfrc522.MFRC522_Auth(mfrc522.PICC_CMD_MF_AUTH_KEY_A, block, key, uid)
-        if status == mfrc522.MI_OK:
-            print("Authentication success")
-
-            status = mfrc522.MFRC522_Write(block, buffer)
-            if status == mfrc522.MI_OK:
-                print("Write success")
-            else:
-                print("Write failed:", mfrc522.GetStatusCodeName(status))
-
-            mfrc522.MFRC522_StopCrypto1()
-        else:
-            print("Authentication failed:", mfrc522.GetStatusCodeName(status))
-        
-        mfrc522.MFRC522_Halt()
-
-def Leer():
-    key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]
-
-    while not mfrc522.MFRC522_Request(mfrc522.PICC_REQIDL):  # Look for new cards
-        pass
-
-    status, uid = mfrc522.MFRC522_Anticoll()  # Select one of the cards
-
-    if status == mfrc522.MI_OK:
-        print("**Card Detected:**")
-        mfrc522.MFRC522_DumpDetails(uid)  # Dump some details about the card
-
-        len_data = 18
-        buffer = [0] * len_data
-        block = 1
-
-        status = mfrc522.MFRC522_Auth(mfrc522.PICC_CMD_MF_AUTH_KEY_A, block, key, uid)
-        if status == mfrc522.MI_OK:
-            print("Authentication success")
-
-            status, buffer = mfrc522.MFRC522_Read(block, len_data)
-            if status == mfrc522.MI_OK:
-                print("Read success")
-                last_name = ''.join(chr(byte) for byte in buffer)
-                print("Last Name:", last_name)
-            else:
-                print("Read failed:", mfrc522.GetStatusCodeName(status))
-
-            mfrc522.MFRC522_StopCrypto1()
-        else:
-            print("Authentication failed:", mfrc522.GetStatusCodeName(status))
-
-        print("**End Reading**")
-
-try:
-    GPIO.setwarnings(False)
-    GPIO.cleanup()
-    GPIO.setmode(GPIO.BOARD)
-    mfrc522.MFRC522_Init()
-
-    while True:
-        print("1. Escribir")
-        print("2. Leer")
-        choice = input()
-        if choice == '1':
-            Escribir()
-        elif choice == '2':
-            Leer()
-
-except KeyboardInterrupt:
-    GPIO.cleanup()
+        sleep(2)  # Hacemos una pausa de 2 segundos
+    except:  # Si ocurre una excepción
+        GPIO.cleanup()  # Limpiamos la configuración de los pines GPIO
+        exit()  # Salimos del programa
