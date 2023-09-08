@@ -81,3 +81,5 @@ El siguiente Flow fue utilizado en el desarrollo del proyecto, mismo que puedes 
     - [GitHub](https://github.com/Magni007)
 - Jesús Javier Flores Pérez.
     - [GitHub](https://github.com/jjavierohara)
+    - [Facebook](https://www.linkedin.com/in/elizabeth-paulina-ar%C3%A9valo-sandoval-2875b0228/)
+    - [Instagram](https://www.instagram.com/soyjavier_99/)
