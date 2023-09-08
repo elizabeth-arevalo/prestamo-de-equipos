@@ -73,6 +73,11 @@ El siguiente Flow fue utilizado en el desarrollo del proyecto, mismo que puedes 
 # Créditos.
  Este proyecto fue desarrollado por:
 
-- [Elizabeth Paulina Arévalo Sandoval.](https://github.com/elizabeth-arevalo)
-- [Marco Antonio Hernández Magni.](https://github.com/Magni007)
-- [Jesús Javier Flores Pérez.](https://github.com/jjavierohara)
+- Elizabeth Paulina Arévalo Sandoval.
+    - [GitHub](https://github.com/elizabeth-arevalo)
+    - [Facebook](https://www.facebook.com/Izel.Are/)
+    - [LinkedIn](https://www.linkedin.com/in/elizabeth-paulina-ar%C3%A9valo-sandoval-2875b0228/)
+- Marco Antonio Hernández Magni.
+    - [GitHub](https://github.com/Magni007)
+- Jesús Javier Flores Pérez.
+    - [GitHub](https://github.com/jjavierohara)
